@@ -25,14 +25,12 @@ common:
 
 
 	services:
-authenticator: Authenticator
-routerFactory: RouterFactory
-router: @routerFactory::createRouter
-
-taskRepository: Todo\TaskRepository
-userRepository: Todo\UserRepository
-listRepository: Todo\ListRepository
-
+			authenticator: Authenticator
+			routerFactory: RouterFactory
+			router: @routerFactory::createRouter
+			taskRepository: Todo\TaskRepository
+			userRepository: Todo\UserRepository
+			listRepository: Todo\ListRepository
 
 factories:
 

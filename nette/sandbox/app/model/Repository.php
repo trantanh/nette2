@@ -4,56 +4,42 @@ namespace Todo;
 
 use Nette;
 
-
-
 /**
-* Provádí operace nad databázovou tabulkou.
-*/
-abstract class Repository extends Nette\Object
-{
-/** @var Nette\Database\Connection */
-protected $connection;
+ * ProvÃ¡dÃ­ operace nad databÃ¡zovou tabulkou.
+ */
+abstract class Repository extends Nette\Object {
 
+    /** @var Nette\Database\Connection */
+    protected $connection;
 
+    public function __construct(Nette\Database\Connection $db) {
+        $this->connection = $db;
+    }
 
-public function __construct(Nette\Database\Connection $db)
-{
-$this->connection = $db;
-}
+    /**
+     * VracÃ­ objekt reprezentujÃ­cÃ­ databÃ¡zovou tabulku.
+     * @return Nette\Database\Table\Selection
+     */
+    protected function getTable() {
+        // nÃ¡zev tabulky odvodÃ­me z nÃ¡zvu tÅ™Ã­dy
+        preg_match('#(\w+)Repository$#', get_class($this), $m);
+        return $this->connection->table(lcfirst($m[1]));
+    }
 
+    /**
+     * VracÃ­ vÅ¡echny Å™Ã¡dky z tabulky.
+     * @return Nette\Database\Table\Selection
+     */
+    public function findAll() {
+        return $this->getTable();
+    }
 
-
-/**
-* Vrací objekt reprezentující databázovou tabulku.
-* @return Nette\Database\Table\Selection
-*/
-protected function getTable()
-{
-// název tabulky odvodíme z názvu tøídy
-preg_match('#(\w+)Repository$#', get_class($this), $m);
-return $this->connection->table(lcfirst($m[1]));
-}
-
-
-
-/**
-* Vrací všechny øádky z tabulky.
-* @return Nette\Database\Table\Selection
-*/
-public function findAll()
-{
-return $this->getTable();
-}
-
-
-
-/**
-* Vrací øádky podle filtru, napø. array('name' => 'John').
-* @return Nette\Database\Table\Selection
-*/
-public function findBy(array $by)
-{
-return $this->getTable()->where($by);
-}
+    /**
+     * VracÃ­ Å™Ã¡dky podle filtru, napÅ™. array('name' => 'John').
+     * @return Nette\Database\Table\Selection
+     */
+    public function findBy(array $by) {
+        return $this->getTable()->where($by);
+    }
 
 }
