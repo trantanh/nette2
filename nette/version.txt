@@ -1,1 +1,0 @@
-Nette Framework 2.0.11 (revision dc83a21 released on 2013-07-11)
